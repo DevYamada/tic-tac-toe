@@ -1,6 +1,14 @@
 import { useState, useEffect, use } from "react";
 
 function Columns() {
+  const [end, setEnd] = useState(0);
+
+  /*
+  PRA FAZER O WIN PARA DE VEZ O JOGO E O BOT NÂO JOGAR MAIS E ETC E O BOT CONSEGUIR GANHAR TAMBÈM
+  useEffect(() => {
+    
+  } ,[grid])*/
+
   const [grid, setGrid] = useState({
     topLeft: "h",
     topMiddle: "h",
@@ -12,6 +20,29 @@ function Columns() {
     bottomMiddle: "h",
     bottomRight: "h",
   });
+
+  const [winGrid, setWinGrid] = useState([]);
+
+  useEffect(() => {
+    const newWinGrid = [
+      /* HORIZONTAL LINES */
+      [grid.topLeft, grid.topMiddle, grid.topRight],
+      [grid.middleLeft, grid.middleMiddle, grid.middleRight],
+      [grid.bottomLeft, grid.bottomMiddle, grid.bottomRight],
+
+      /* DIAGONALS */
+      [grid.topLeft, grid.middleMiddle, grid.bottomRight],
+      [grid.topRight, grid.middleMiddle, grid.bottomLeft],
+
+      /* VERTICAL LINES */
+      [grid.topLeft, grid.middleLeft, grid.bottomLeft],
+      [grid.topMiddle, grid.middleMiddle, grid.bottomMiddle],
+      [grid.topRight, grid.middleRight, grid.bottomRight],
+    ];
+
+    setWinGrid(newWinGrid);
+    checkForWin(newWinGrid);
+  }, [grid]);
 
   const [gridKeys, setGridKeys] = useState([
     "topLeft",
@@ -34,41 +65,57 @@ function Columns() {
     return random;
   };
 
-  const botPlay = () => {
-    console.log('---------------------')
-    let botPlayPosition = randomNumber();
-    while (grid[gridKeys[botPlayPosition]] !== "h") {
-      console.log(grid[gridKeys[botPlayPosition]]);
-      botPlayPosition = randomNumber();
-    }
-    if (grid[gridKeys[botPlayPosition]] !== "h") {
-      botPlay();
+  const botPlay = (updatedGrid) => {
+    if (
+      Object.keys(updatedGrid).find((key) => updatedGrid[key] === "h") ==
+      undefined
+    ) {
+      return;
     } else {
-      console.log(botPlayPosition);
-      console.log(grid[gridKeys[botPlayPosition]]);
-      botPlayPosition = gridKeys[botPlayPosition];
+      let botPlayPosition = randomNumber();
+      while (updatedGrid[gridKeys[botPlayPosition]] !== "h") {
+        botPlayPosition = randomNumber();
+      }
+      const position = gridKeys[botPlayPosition];
+
       setGrid((prev) => ({
         ...prev,
-        [botPlayPosition]: `${selectedPlayerBot}`,
+        [position]: selectedPlayerBot,
       }));
+    }
+    checkForWin();
+  };
+
+  const gameFinish = (win, index) => {
+    console.log(grid)
+    setEnd(1)
+  };
+
+  const checkForWin = () => {
+    for (let index = 0; index < winGrid.length; index++) {
+      const element = winGrid[index];
+      if (
+        element[0] == element[1] &&
+        element[0] == element[2] &&
+        element[0] != "h"
+      ) {
+        return gameFinish(winGrid, index);
+      }
     }
   };
 
-  const callBotPlay = () => {
-    setTimeout(() => {
-      botPlay()
-    }, 500);
-
-  }
-
   const play = (position) => {
     /*let na = gridKeys[4]*/
+    if (end == 0) {
+      if (grid[position] == "h") {
+        setGrid((prev) => ({ ...prev, [position]: selectedPlayer }));
 
-    if (grid[position] == "h") {
-      setGrid((prev) => ({ ...prev, [position]: `${selectedPlayer}` }));
-      /*setSelectedPlayer((prev) => (prev === "x" ? "c" : "x"));*/
+        const updatedGrid = grid;
+        updatedGrid[position] = selectedPlayer;
 
-      callBotPlay()
+        setTimeout(() => botPlay(updatedGrid), 500); // Novo estado imediato
+        /*setSelectedPlayer((prev) => (prev === "x" ? "c" : "x"));*/
+      }
     }
   };
 
