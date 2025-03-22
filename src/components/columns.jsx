@@ -3,8 +3,21 @@ import { useState, useEffect, use } from "react";
 var posit = null;
 var end1 = 0;
 var a = 1;
+
 function Columns() {
+  // consertar erro de registrar o ultimo apertado - CHECK
+  // fazer versão 1v1
+  // fazer o bot com dificuldades
+
   const [end, setEnd] = useState(0);
+
+  const [winGrid, setWinGrid] = useState([]);
+
+  const [selectedPlayer, setSelectedPlayer] = useState("x");
+  const [selectedPlayerBot, setSelectedPlayerBot] = useState("c");
+  const [bot, setBot] = useState(false);
+
+  const [gridB, setGridB] = useState(1);
 
   const [grid, setGrid] = useState({
     topLeft: "h",
@@ -18,12 +31,6 @@ function Columns() {
     bottomRight: "h",
   });
 
-  const [winGrid, setWinGrid] = useState([]);
-
-  useEffect(() => {
-    checkForWin(posit, 1);
-  }, [grid]);
-
   const [gridKeys, setGridKeys] = useState([
     "topLeft",
     "topMiddle",
@@ -36,9 +43,14 @@ function Columns() {
     "bottomRight",
   ]);
 
+  useEffect(() => {
+    checkForWin(posit, a);
+  }, [gridB]);
+
   const resetGrid = () => {
-    for (let item = 0; item < gridKeys.length; item++) {
+    for (let item = 0; item <= gridKeys.length; item++) {
       const element = gridKeys[item];
+
       setGrid((prev) => ({
         ...prev,
         [element]: "h",
@@ -46,10 +58,6 @@ function Columns() {
     }
     end1 = 0;
   };
-
-  const [selectedPlayer, setSelectedPlayer] = useState("x");
-  const [selectedPlayerBot, setSelectedPlayerBot] = useState("c");
-  const [bot, setBot] = useState(false);
 
   const randomNumber = () => {
     let random = Math.floor(Math.random() * 9);
@@ -74,6 +82,7 @@ function Columns() {
         [position]: selectedPlayerBot,
       }));
     }
+    setGridB((prev) => ({ ...prev, 1: 2 }));
   };
 
   const gameFinish = (win, index) => {
@@ -93,8 +102,13 @@ function Columns() {
   };
 
   const checkForWin = (position, x) => {
-    const updatedGrid = grid;
+    let updatedGrid = grid;
     updatedGrid[position] = selectedPlayer;
+    console.log(x);
+    if (x == 2) {
+      updatedGrid = grid;
+    }
+
     const winGrid1 = [
       /* HORIZONTAL LINES */
       [updatedGrid.topLeft, updatedGrid.topMiddle, updatedGrid.topRight],
@@ -238,7 +252,24 @@ function Columns() {
           </p>
         </div>
       </div>
-      <button onClick={resetGrid}>reset</button>
+      <div className="div-reset">
+        <button className="reset" onClick={resetGrid}>
+          RESET
+        </button>
+        <br />
+        <footer>
+          <span className="title">
+            TIC-TAC-TOE
+          </span>
+
+          <br />
+          <span className="author">
+            game developed by
+            <br />
+            LUCAS YAMADA
+          </span>
+        </footer>
+      </div>
     </>
   );
 }

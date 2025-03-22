@@ -3,7 +3,7 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
-  display: flex;
+  display: block;
   align-items: center;
   justify-content: center;
 
@@ -11,6 +11,34 @@
 
 body{
   background-color: rgb(34, 34, 34);
+}
+
+footer {
+  font-weight: 400;
+  margin-top: 2rem;
+  color: white
+}
+
+.title{
+  transition: 0.3s;
+  letter-spacing: 1px;
+}
+
+.title:hover{
+  transition: 0.3s;
+  letter-spacing: 4px;
+}
+
+.author {
+  transition: 0.3s;
+  margin-top: 10px;
+  font-size: 0.6rem;
+  letter-spacing: 2px;
+}
+
+.author:hover{
+  transition: 0.3s;
+  letter-spacing: 4px;
 }
 
 .container {
@@ -135,5 +163,35 @@ p{
   -moz-transform:rotate(-45deg);
   transform:rotate(-45deg);
   right:2px;
+}
+
+.div-reset{
+  display: block;
+  margin-top: 1.5rem;
+
+}
+
+.reset{
+
+  transition: 0.3s;
+  width: 5rem;
+  background-color: rgb(1, 48, 191);
+  border: none;
+  padding: 0.5rem;
+  border-radius: 3px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.749);
+}
+
+.reset:hover{
+  letter-spacing: 4px;
+  transition: 0.3s;
+  background-color: rgb(1, 44, 170);
+}
+
+.reset:active{
+  transition: 0.3s;
+  letter-spacing: -8px;
+  background-color: rgb(1, 27, 105);
 }
 
