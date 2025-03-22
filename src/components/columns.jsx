@@ -1,15 +1,10 @@
 import { useState, useEffect, use } from "react";
 
+var posit = null;
 var end1 = 0;
 var a = 1;
 function Columns() {
   const [end, setEnd] = useState(0);
-
-  /*
-  PRA FAZER O WIN PARA DE VEZ O JOGO E O BOT NÂO JOGAR MAIS E ETC E O BOT CONSEGUIR GANHAR TAMBÈM
-  useEffect(() => {
-    
-  } ,[grid])*/
 
   const [grid, setGrid] = useState({
     topLeft: "h",
@@ -25,28 +20,9 @@ function Columns() {
 
   const [winGrid, setWinGrid] = useState([]);
 
-// useEffect(() => {
-//   const newWinGrid = [
-//     /* HORIZONTAL LINES */
-//     [grid.topLeft, grid.topMiddle, grid.topRight],
-//     [grid.middleLeft, grid.middleMiddle, grid.middleRight],
-//     [grid.bottomLeft, grid.bottomMiddle, grid.bottomRight],
-//
-//     /* DIAGONALS */
-//     [grid.topLeft, grid.middleMiddle, grid.bottomRight],
-//     [grid.topRight, grid.middleMiddle, grid.bottomLeft],
-//
-//     /* VERTICAL LINES */
-//     [grid.topLeft, grid.middleLeft, grid.bottomLeft],
-//     [grid.topMiddle, grid.middleMiddle, grid.bottomMiddle],
-//     [grid.topRight, grid.middleRight, grid.bottomRight],
-//   ];
-//
-//   setWinGrid(newWinGrid);
-//   checkForWin(newWinGrid, a);
-// }, [grid]); 
-// 
-//
+  useEffect(() => {
+    checkForWin(posit, 1);
+  }, [grid]);
 
   const [gridKeys, setGridKeys] = useState([
     "topLeft",
@@ -59,6 +35,17 @@ function Columns() {
     "bottomMiddle",
     "bottomRight",
   ]);
+
+  const resetGrid = () => {
+    for (let item = 0; item < gridKeys.length; item++) {
+      const element = gridKeys[item];
+      setGrid((prev) => ({
+        ...prev,
+        [element]: "h",
+      }));
+    }
+    end1 = 0;
+  };
 
   const [selectedPlayer, setSelectedPlayer] = useState("x");
   const [selectedPlayerBot, setSelectedPlayerBot] = useState("c");
@@ -156,6 +143,7 @@ function Columns() {
   };
 
   const play = (position) => {
+    posit = position;
     a = 0;
     /*let na = gridKeys[4]*/
     if (end1 == 0) {
@@ -250,6 +238,7 @@ function Columns() {
           </p>
         </div>
       </div>
+      <button onClick={resetGrid}>reset</button>
     </>
   );
 }
