@@ -1,5 +1,7 @@
 import { useState, useEffect, use } from "react";
 
+var end1 = 0;
+var a = 1;
 function Columns() {
   const [end, setEnd] = useState(0);
 
@@ -23,26 +25,28 @@ function Columns() {
 
   const [winGrid, setWinGrid] = useState([]);
 
-  useEffect(() => {
-    const newWinGrid = [
-      /* HORIZONTAL LINES */
-      [grid.topLeft, grid.topMiddle, grid.topRight],
-      [grid.middleLeft, grid.middleMiddle, grid.middleRight],
-      [grid.bottomLeft, grid.bottomMiddle, grid.bottomRight],
-
-      /* DIAGONALS */
-      [grid.topLeft, grid.middleMiddle, grid.bottomRight],
-      [grid.topRight, grid.middleMiddle, grid.bottomLeft],
-
-      /* VERTICAL LINES */
-      [grid.topLeft, grid.middleLeft, grid.bottomLeft],
-      [grid.topMiddle, grid.middleMiddle, grid.bottomMiddle],
-      [grid.topRight, grid.middleRight, grid.bottomRight],
-    ];
-
-    setWinGrid(newWinGrid);
-    checkForWin(newWinGrid);
-  }, [grid]);
+// useEffect(() => {
+//   const newWinGrid = [
+//     /* HORIZONTAL LINES */
+//     [grid.topLeft, grid.topMiddle, grid.topRight],
+//     [grid.middleLeft, grid.middleMiddle, grid.middleRight],
+//     [grid.bottomLeft, grid.bottomMiddle, grid.bottomRight],
+//
+//     /* DIAGONALS */
+//     [grid.topLeft, grid.middleMiddle, grid.bottomRight],
+//     [grid.topRight, grid.middleMiddle, grid.bottomLeft],
+//
+//     /* VERTICAL LINES */
+//     [grid.topLeft, grid.middleLeft, grid.bottomLeft],
+//     [grid.topMiddle, grid.middleMiddle, grid.bottomMiddle],
+//     [grid.topRight, grid.middleRight, grid.bottomRight],
+//   ];
+//
+//   setWinGrid(newWinGrid);
+//   checkForWin(newWinGrid, a);
+// }, [grid]); 
+// 
+//
 
   const [gridKeys, setGridKeys] = useState([
     "topLeft",
@@ -83,37 +87,82 @@ function Columns() {
         [position]: selectedPlayerBot,
       }));
     }
-    checkForWin();
   };
 
   const gameFinish = (win, index) => {
-    console.log(grid)
-    setEnd(1)
+    if (end1 == 0) {
+      console.log(win);
+      for (let item = 0; item < gridKeys.length; item++) {
+        const element = gridKeys[item];
+        if (grid[element] == index) {
+          setGrid((prev) => ({ ...prev, [element]: index + "-win" }));
+        }
+        console.log(element);
+      }
+
+      console.log(grid);
+      end1 = 1;
+    }
   };
 
-  const checkForWin = () => {
-    for (let index = 0; index < winGrid.length; index++) {
-      const element = winGrid[index];
+  const checkForWin = (position, x) => {
+    const updatedGrid = grid;
+    updatedGrid[position] = selectedPlayer;
+    const winGrid1 = [
+      /* HORIZONTAL LINES */
+      [updatedGrid.topLeft, updatedGrid.topMiddle, updatedGrid.topRight],
+      [
+        updatedGrid.middleLeft,
+        updatedGrid.middleMiddle,
+        updatedGrid.middleRight,
+      ],
+      [
+        updatedGrid.bottomLeft,
+        updatedGrid.bottomMiddle,
+        updatedGrid.bottomRight,
+      ],
+
+      /* DIAGONALS */
+      [updatedGrid.topLeft, updatedGrid.middleMiddle, updatedGrid.bottomRight],
+      [updatedGrid.topRight, updatedGrid.middleMiddle, updatedGrid.bottomLeft],
+
+      /* VERTICAL LINES */
+      [updatedGrid.topLeft, updatedGrid.middleLeft, updatedGrid.bottomLeft],
+      [
+        updatedGrid.topMiddle,
+        updatedGrid.middleMiddle,
+        updatedGrid.bottomMiddle,
+      ],
+      [updatedGrid.topRight, updatedGrid.middleRight, updatedGrid.bottomRight],
+    ];
+    for (let index = 0; index < winGrid1.length; index++) {
+      const element = winGrid1[index];
       if (
         element[0] == element[1] &&
         element[0] == element[2] &&
         element[0] != "h"
       ) {
-        return gameFinish(winGrid, index);
+        index = gridKeys[index];
+        if (element[0] == "c") {
+          return gameFinish(winGrid, "c", "x");
+        }
+        return gameFinish(winGrid, "x", "c");
       }
+    }
+    if (x == 0) {
+      setTimeout(() => botPlay(updatedGrid), 500);
+      a = 1;
     }
   };
 
   const play = (position) => {
+    a = 0;
     /*let na = gridKeys[4]*/
-    if (end == 0) {
+    if (end1 == 0) {
       if (grid[position] == "h") {
         setGrid((prev) => ({ ...prev, [position]: selectedPlayer }));
-
-        const updatedGrid = grid;
-        updatedGrid[position] = selectedPlayer;
-
-        setTimeout(() => botPlay(updatedGrid), 500); // Novo estado imediato
+        checkForWin(position, a);
+        // Novo estado imediato
         /*setSelectedPlayer((prev) => (prev === "x" ? "c" : "x"));*/
       }
     }

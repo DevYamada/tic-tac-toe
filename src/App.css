@@ -72,12 +72,14 @@ p{
   border-right: 3px solid grey;
 }
 
-.x{
+.x, .x-win, .x-loss{
   width:40px;
   height:40px;
   position:relative;
   border-radius:6px;
 }
+
+
 
 .x:before,.x:after{
   content:'';
@@ -89,16 +91,49 @@ p{
   top:16px;
 }
 
-.x:before{
+.x-win:before,.x-win:after{
+  content:'';
+  position:absolute;
+  width:36px;
+  height:2.5px;
+  background-color:rgb(44, 173, 85);
+  border-radius:2px;
+  top:16px;
+}
+
+.x-loss:before,.x-loss:after{
+  content:'';
+  position:absolute;
+  width:36px;
+  height:2.5px;
+  background-color:rgba(255, 255, 255, 0.63);
+  border-radius:2px;
+  top:16px;
+}
+
+.c-win{
+  transition: 0.2s ease-in-out;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2.5px solid rgb(44, 173, 85);
+}
+
+.c-loss{
+  border: 2.5px solid rgba(255, 0, 0, 0.568);
+}
+
+.x:before, .x-win:before, .x-loss:before{
   -webkit-transform:rotate(45deg);
   -moz-transform:rotate(45deg);
   transform:rotate(45deg);
   left:2px;
 }
 
-.x:after{
+.x:after, .x-win:after, .x-loss:after{
   -webkit-transform:rotate(-45deg);
   -moz-transform:rotate(-45deg);
   transform:rotate(-45deg);
   right:2px;
 }
+
