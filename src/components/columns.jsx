@@ -47,7 +47,6 @@ function Columns() {
   ]);
 
   useEffect(() => {
-    console.log(1);
     checkForWin(posit, a);
   }, [gridB]);
 
@@ -134,10 +133,10 @@ function Columns() {
   };
 
   const checkForWin = (position, x) => {
-    console.log(1);
+
     let updatedGrid = grid;
     updatedGrid[position] = selectedPlayer;
-    console.log(x);
+
     if (x == 2) {
       updatedGrid = grid;
     }
@@ -204,7 +203,6 @@ function Columns() {
   };
 
   const play = (position) => {
-    console.log(1);
     posit = position;
     a = 0;
     /*let na = gridKeys[4]*/
