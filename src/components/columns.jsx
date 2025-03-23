@@ -47,6 +47,7 @@ function Columns() {
   ]);
 
   useEffect(() => {
+    console.log(1);
     checkForWin(posit, a);
   }, [gridB]);
 
@@ -69,12 +70,8 @@ function Columns() {
   };
 
   const botPlay = (updatedGrid) => {
-    if (
-      Object.keys(updatedGrid).find((key) => updatedGrid[key] === "h") ==
-      undefined
-    ) {
-      return;
-    } else {
+    console.log(1);
+      console.log(4);
       let botPlayPosition = randomNumber();
       while (updatedGrid[gridKeys[botPlayPosition]] !== "h") {
         botPlayPosition = randomNumber();
@@ -85,22 +82,29 @@ function Columns() {
         ...prev,
         [position]: selectedPlayerBot,
       }));
-    }
+    
     setGridB((prev) => ({ ...prev, 1: 2 }));
   };
 
   const gameFinish = (win, index) => {
+    console.log(1);
     if (end1 == 0) {
       console.log(win);
       let indicator = "-win";
       for (let item = 0; item < gridKeys.length; item++) {
         const element = gridKeys[item];
-        if (index != selectedPlayer) {
-          indicator = "-loss";
+        if (win == "draw") {
+          setGrid((prev) => ({ ...prev, [element]: grid[element] + "-loss" }));
+          console.log(grid[element] + " draw");
+        } else {
+          if (index != selectedPlayer) {
+            indicator = "-loss";
+          }
+          if (grid[element] == index) {
+            setGrid((prev) => ({ ...prev, [element]: index + indicator }));
+          }
         }
-        if (grid[element] == index) {
-          setGrid((prev) => ({ ...prev, [element]: index + indicator }));
-        }
+
         console.log(element);
       }
 
@@ -110,6 +114,7 @@ function Columns() {
   };
 
   const checkForWin = (position, x) => {
+    console.log(1);
     let updatedGrid = grid;
     updatedGrid[position] = selectedPlayer;
     console.log(x);
@@ -158,16 +163,24 @@ function Columns() {
         return gameFinish(winGrid, "x", "c");
       }
     }
-    if (x == 0 && activepvia=="active") {
-      setTimeout(() => botPlay(updatedGrid), 500);
-      a = 1;
-    }
-    if(activepvp == "active"){
+    if (
+      Object.keys(updatedGrid).find((key) => updatedGrid[key] === "h") ==
+      "undefined"
+    ) {
+      gameFinish("draw");
+    } else {
+      if (x == 0 && activepvia == "active") {
+        setTimeout(() => botPlay(updatedGrid), 500);
+        a = 1;
+      }
+      if (activepvp == "active") {
         setSelectedPlayer((prev) => (prev === "x" ? "c" : "x"));
+      }
     }
   };
 
   const play = (position) => {
+    console.log(1);
     posit = position;
     a = 0;
     /*let na = gridKeys[4]*/
@@ -176,20 +189,19 @@ function Columns() {
         setGrid((prev) => ({ ...prev, [position]: selectedPlayer }));
         checkForWin(position, a);
         // Novo estado imediato
-
       }
     }
   };
 
   const activeFunction = (active) => {
-    resetGrid()
-    if (active == 1){
-      setActivePvia('active')
-      setActivePvp('')
-      return
+    resetGrid();
+    if (active == 1) {
+      setActivePvia("active");
+      setActivePvp("");
+      return;
     }
     setActivePvp("active");
-    setActivePvia("")
+    setActivePvia("");
   };
 
   return (
