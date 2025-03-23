@@ -6,7 +6,7 @@ var a = 1;
 
 function Columns() {
   // consertar erro de registrar o ultimo apertado - CHECK
-  // fazer versão 1v1
+  // fazer versão 1v1 - CHECKED
   // fazer o bot com dificuldades
 
   const [end, setEnd] = useState(0);
@@ -70,9 +70,28 @@ function Columns() {
   };
 
   const botPlay = (updatedGrid) => {
-    console.log(1);
-      console.log(4);
-      let botPlayPosition = randomNumber();
+    let botPlayPosition = randomNumber();
+    while (updatedGrid[gridKeys[botPlayPosition]] !== "h") {
+      botPlayPosition = randomNumber();
+    }
+    const position = gridKeys[botPlayPosition];
+
+    setGrid((prev) => ({
+      ...prev,
+      [position]: selectedPlayerBot,
+    }));
+
+    setGridB((prev) => ({ ...prev, 1: 2 }));
+  };
+
+  const botPlayHard = (updatedGrid, wingrid) => {
+    let botPlayPosition = randomNumber();
+    for (let index = 0; index < wingrid.length; index++) {
+      const element = wingrid[index];
+      if (element[0] == element[1] && element[0] == selectedPlayerBot) {
+        botPlayPosition = wingrid[index].indexOf("h");
+      }
+
       while (updatedGrid[gridKeys[botPlayPosition]] !== "h") {
         botPlayPosition = randomNumber();
       }
@@ -82,8 +101,9 @@ function Columns() {
         ...prev,
         [position]: selectedPlayerBot,
       }));
-    
-    setGridB((prev) => ({ ...prev, 1: 2 }));
+
+      setGridB((prev) => ({ ...prev, 1: 2 }));
+    }
   };
 
   const gameFinish = (win, index) => {
@@ -173,6 +193,10 @@ function Columns() {
         setTimeout(() => botPlay(updatedGrid), 500);
         a = 1;
       }
+      /*if (x == 0 && activepvia == "active") {
+        setTimeout(() => botPlayHard(updatedGrid, winGrid1), 500);
+        a = 1;
+      }*/
       if (activepvp == "active") {
         setSelectedPlayer((prev) => (prev === "x" ? "c" : "x"));
       }
@@ -188,7 +212,6 @@ function Columns() {
       if (grid[position] == "h") {
         setGrid((prev) => ({ ...prev, [position]: selectedPlayer }));
         checkForWin(position, a);
-        // Novo estado imediato
       }
     }
   };
