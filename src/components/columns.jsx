@@ -19,6 +19,9 @@ function Columns() {
 
   const [gridB, setGridB] = useState(1);
 
+  const [activepvp, setActivePvp] = useState("");
+  const [activepvia, setActivePvia] = useState("active");
+
   const [grid, setGrid] = useState({
     topLeft: "h",
     topMiddle: "h",
@@ -48,6 +51,7 @@ function Columns() {
   }, [gridB]);
 
   const resetGrid = () => {
+    setSelectedPlayer("x");
     for (let item = 0; item <= gridKeys.length; item++) {
       const element = gridKeys[item];
 
@@ -88,10 +92,14 @@ function Columns() {
   const gameFinish = (win, index) => {
     if (end1 == 0) {
       console.log(win);
+      let indicator = "-win";
       for (let item = 0; item < gridKeys.length; item++) {
         const element = gridKeys[item];
+        if (index != selectedPlayer) {
+          indicator = "-loss";
+        }
         if (grid[element] == index) {
-          setGrid((prev) => ({ ...prev, [element]: index + "-win" }));
+          setGrid((prev) => ({ ...prev, [element]: index + indicator }));
         }
         console.log(element);
       }
@@ -150,9 +158,12 @@ function Columns() {
         return gameFinish(winGrid, "x", "c");
       }
     }
-    if (x == 0) {
+    if (x == 0 && activepvia=="active") {
       setTimeout(() => botPlay(updatedGrid), 500);
       a = 1;
+    }
+    if(activepvp == "active"){
+        setSelectedPlayer((prev) => (prev === "x" ? "c" : "x"));
     }
   };
 
@@ -165,9 +176,20 @@ function Columns() {
         setGrid((prev) => ({ ...prev, [position]: selectedPlayer }));
         checkForWin(position, a);
         // Novo estado imediato
-        /*setSelectedPlayer((prev) => (prev === "x" ? "c" : "x"));*/
+
       }
     }
+  };
+
+  const activeFunction = (active) => {
+    resetGrid()
+    if (active == 1){
+      setActivePvia('active')
+      setActivePvp('')
+      return
+    }
+    setActivePvp("active");
+    setActivePvia("")
   };
 
   return (
@@ -257,10 +279,26 @@ function Columns() {
           RESET
         </button>
         <br />
+        <br />
+        <button
+          onClick={(e) => {
+            activeFunction(1);
+          }}
+          className={"pvia " + activepvia}
+        >
+          1P
+        </button>
+        <button
+          onClick={(e) => {
+            activeFunction(2);
+          }}
+          className={"pvp " + activepvp}
+        >
+          2P
+        </button>
+        <br />
         <footer>
-          <span className="title">
-            TIC-TAC-TOE
-          </span>
+          <span className="title">TIC-TAC-TOE</span>
 
           <br />
           <span className="author">
