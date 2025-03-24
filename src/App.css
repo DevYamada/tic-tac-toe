@@ -55,8 +55,8 @@ p {
   justify-content: center;
   align-items: center;
   margin-bottom: -0.1px;
-  width: 70px;
-  height: 70px;
+  width: 100px;
+  height: 100px;
 }
 
 .middle-middle {
@@ -70,15 +70,15 @@ p {
 
 .c {
   transition: 0.2s ease-in-out;
-  width: 40px;
-  height: 40px;
+  width: 70px;
+  height: 70px;
   border-radius: 50%;
   border: 2.5px solid white;
 }
 
 .h {
-  width: 40px;
-  height: 40px;
+  width: 70px;
+  height: 70px;
 }
 
 .middle-left {
@@ -99,8 +99,8 @@ p {
 .x,
 .x-win,
 .x-loss {
-  width: 40px;
-  height: 40px;
+  width: 70px;
+  height: 70px;
   position: relative;
   border-radius: 6px;
 }
@@ -109,47 +109,47 @@ p {
 .x:after {
   content: "";
   position: absolute;
-  width: 36px;
+  width: 67px;
   height: 2.5px;
   background-color: white;
   border-radius: 2px;
-  top: 16px;
+  top: 35px;
 }
 
 .x-win:before,
 .x-win:after {
   content: "";
   position: absolute;
-  width: 36px;
+  width: 67px;
   height: 2.5px;
   background-color: rgb(44, 173, 85);
   border-radius: 2px;
-  top: 16px;
+  top: 35px;
 }
 
 .x-loss:before,
 .x-loss:after {
   content: "";
   position: absolute;
-  width: 36px;
+  width: 67px;
   height: 2.5px;
   background-color: rgba(255, 0, 0, 0.63);
   border-radius: 2px;
-  top: 16px;
+  top: 35px;
 }
 
 .c-win {
   transition: 0.2s ease-in-out;
-  width: 40px;
-  height: 40px;
+  width: 70px;
+  height: 70px;
   border-radius: 50%;
   border: 2.5px solid rgb(44, 173, 85);
 }
 
 .c-loss {
   transition: 0.2s ease-in-out;
-  width: 40px;
-  height: 40px;
+  width: 70px;
+  height: 70px;
   border-radius: 50%;
   border: 2.5px solid rgba(255, 0, 0, 0.568);
 }
@@ -174,7 +174,7 @@ p {
 
 .div-reset {
   display: block;
-  margin-top: 1.5rem;
+  margin-top: 2rem;
 }
 
 .reset {
